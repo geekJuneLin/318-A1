@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity"
+    >
+
+    <Button
+        android:id="@+id/buttonCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:text="Create activity"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
+
+    <RelativeLayout
+        android:id="@+id/hiddenView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="-400dp"
+        android:background="#FCFDFD"
+        tools:ignore="ExtraText">
+
+        <TextView
+            android:id="@+id/timeLabel"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Time: "
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            />
+
+        <Button
+            android:id="@+id/setTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"
+            android:text="Set Time" />
+
+        <TextView
+            android:id="@+id/diffLabel"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Difficulty: "
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="80dp"
+            />
+
+        <Spinner
+            android:id="@+id/diffList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="80dp"
+            />
+
+
+        <Button
+            android:id="@+id/dismiss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="40dp"
+            android:text="Place" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/timerView"
+        android:layout_width="300dp"
+        android:layout_height="450dp"
+        android:layout_gravity="center"
+        android:background="#FCFDFD"
+        android:layout_marginTop="-600dp"
+        >
+
+        <TimePicker
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/timeSet"
+            android:text="select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
+
+</fragment>

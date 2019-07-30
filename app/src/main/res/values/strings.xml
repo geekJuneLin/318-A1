@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">318-A1</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="server_client_id">334522377482-54deshm2rjl6lcvqodat7m9dd0nfrmgc.apps.googleusercontent.com</string>
+    <string name="title_activity_raid_info">RaidInfoActivity</string>
+</resources>
