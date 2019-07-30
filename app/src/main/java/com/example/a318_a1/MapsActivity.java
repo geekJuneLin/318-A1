@@ -43,7 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location location;
     private double lat, lon, activityLat, activityLon;
     private Button buttonCreate, buttonDismiss, buttonSetTime, buttonTimeSelected;
-    private RelativeLayout hiddenView, timeView;
+    private RelativeLayout hiddenView, timeView, raidInfoView;
     private TimePicker timer;
     private Spinner diffList;
     private String[] list = {"Level 1 *","Level 2 **","Level 3 ***","Level 4 ****","Level 5 *****"};
@@ -79,6 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setUpViews(){
         hiddenView = findViewById(R.id.hiddenView);
         timeView = findViewById(R.id.timerView);
+        raidInfoView = findViewById(R.id.raidInfoView);
 
         timer = findViewById(R.id.timer);
 
@@ -264,6 +265,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onMarkerClick(Marker marker) {
                 for(RaidActivity r : activityArray){
                     if(marker.getPosition().longitude == r.lon && marker.getPosition().latitude == r.lat){
+                        ObjectAnimator animation = ObjectAnimator.ofFloat(raidInfoView, "translationY", -1200f);
+                        animation.setDuration(500);
+                        animation.start();
                         Log.d("Display the info", "Show the info");
                     }
                 }
