@@ -202,7 +202,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 lon = location.getLongitude();
                 Log.d("location", lat + ", " + lon);
             }else{
-                Toast.makeText(this, "Unable to get your location!", Toast.LENGTH_LONG).show();
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if(location != null){
+                    lat = location.getLatitude();
+                    lon = location.getLongitude();
+                    Log.d("location", lat + ", " + lon);
+                }else{
+                    Toast.makeText(this, "Unable to get your location!", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
@@ -257,7 +264,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions marker = new MarkerOptions().position(current).title("Your current location");
         mMap.addMarker(marker);
         markerArray.add(marker);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 16));
 
         // Map click listener
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
