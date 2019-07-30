@@ -251,7 +251,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(lat == 0 && lon == 0){
             current  = new LatLng(-37.7770, 175.2515);
         }else{
-            current = new LatLng(lon, lat);
+            current = new LatLng(lat, lon);
         }
 
         MarkerOptions marker = new MarkerOptions().position(current).title("Your current location");
@@ -311,7 +311,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return false;
             }
         });
-
     }
 
 }
