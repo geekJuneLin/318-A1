@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -42,13 +43,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationManager locationManager;
     private Location location;
     private double lat, lon, activityLat, activityLon;
-    private Button buttonCreate, buttonDismiss, buttonSetTime, buttonTimeSelected;
+    private Button buttonCreate, buttonDismiss, buttonSetTime, buttonTimeSelected, buttonRaidCancel;
     private RelativeLayout hiddenView, timeView, raidInfoView;
     private TimePicker timer;
     private Spinner diffList;
     private String[] list = {"Level 1 *","Level 2 **","Level 3 ***","Level 4 ****","Level 5 *****"};
     private ArrayList<RaidActivity> activityArray;
     private ArrayList<MarkerOptions> markerArray;
+    private TextView raidTime, raidDiff, raidNum;
 
     public MapsActivity() {
     }
@@ -83,6 +85,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         timer = findViewById(R.id.timer);
 
+        raidTime = findViewById(R.id.raidTime);
+        raidDiff = findViewById(R.id.raidDiff);
+        raidNum = findViewById(R.id.raidNum);
+
         diffList = findViewById(R.id.diffList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         diffList.setAdapter(adapter);
@@ -91,6 +97,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buttonDismiss = findViewById(R.id.dismiss);
         buttonSetTime = findViewById(R.id.setTime);
         buttonTimeSelected = findViewById(R.id.timeSet);
+        buttonRaidCancel = findViewById(R.id.raidCancelButton);
     }
 
     /**
@@ -112,6 +119,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         String.valueOf(timer.getHour() + ":" + timer.getMinute()),
                                         markerArray.get(1).getPosition().latitude,
                                         markerArray.get(1).getPosition().longitude));
+
+                    for(MarkerOptions m : markerArray){
+                        mMap.addMarker(m);
+                    }
+                    MarkerOptions marker;
+                    BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    if(activityArray.size() > 0){
+                        for(RaidActivity r : activityArray){
+                            marker = new MarkerOptions().position(new LatLng(r.lat, r.lon)).title("Existed activity!").icon(bitmapDescriptor);
+                            mMap.addMarker(marker);
+                        }
+                    }
                     dismiss();
                     Toast.makeText(MapsActivity.this, "Activity has been created successfully!", Toast.LENGTH_LONG).show();
                 }
@@ -129,6 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ObjectAnimator animation = ObjectAnimator.ofFloat(timeView, "translationY", 1800f);
                 animation.setDuration(500);
                 animation.start();
+                buttonDismiss.setEnabled(false);
             }
         });
         buttonTimeSelected.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +157,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ObjectAnimator animation = ObjectAnimator.ofFloat(timeView, "translationY", -1800f);
                 animation.setDuration(500);
                 animation.start();
+                buttonDismiss.setEnabled(true);
                 Log.d("Time selected",String.valueOf(timer.getHour() + ", " + timer.getMinute() + ", " + diffList.getSelectedItem()));
+            }
+        });
+        buttonRaidCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ObjectAnimator animation = ObjectAnimator.ofFloat(raidInfoView, "translationY", 1200f);
+                animation.setDuration(500);
+                animation.start();
+                buttonCreate.setEnabled(true);
             }
         });
     }
@@ -233,8 +263,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                BitmapDescriptor bitmapDescriptor
-                        = BitmapDescriptorFactory.defaultMarker(
+                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(
                         BitmapDescriptorFactory.HUE_AZURE);
                 MarkerOptions marker = new MarkerOptions().position(latLng).title("Activity is here").icon(bitmapDescriptor);
                 mMap.clear();
@@ -265,9 +294,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onMarkerClick(Marker marker) {
                 for(RaidActivity r : activityArray){
                     if(marker.getPosition().longitude == r.lon && marker.getPosition().latitude == r.lat){
+                        buttonCreate.setEnabled(false);
+
                         ObjectAnimator animation = ObjectAnimator.ofFloat(raidInfoView, "translationY", -1200f);
                         animation.setDuration(500);
                         animation.start();
+
+                        // Display raid information
+                        raidTime.setText(r.time);
+                        raidDiff.setText(r.difficulty);
+                        raidNum.setText(String.valueOf(r.playerNum));
+
                         Log.d("Display the info", "Show the info");
                     }
                 }
