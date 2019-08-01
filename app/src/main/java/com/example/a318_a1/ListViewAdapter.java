@@ -25,6 +25,11 @@ public class ListViewAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void removeMessage(){
+        msgList.removeAll(msgList);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return msgList.size();

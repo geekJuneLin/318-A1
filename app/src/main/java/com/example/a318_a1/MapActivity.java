@@ -55,6 +55,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private double lat, lon;
     private ArrayList<MarkerOptions> markerArray;
     private ArrayList<RaidActivity> activityArray;
+    private ArrayList<Message> msgList;
     private Spinner diffList;
     private String[] list = {"Level 1 *","Level 2 **","Level 3 ***","Level 4 ****","Level 5 *****"};
     private TextView raidTime, raidDiff, showNum, showTime, showDiff;
@@ -62,7 +63,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private EditText msg;
     private Message msgContent;
     private ListView parent;
-    ListViewAdapter listAdapter;
+    private ListViewAdapter listAdapter;
+    private RaidActivity currentAc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +210,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if(msg.length() > 0){
                     Log.d("MSG", "Sending msg!");
                     msgContent = new Message(msg.getText().toString(), true);
+                    msgList = new ArrayList<>();
+                    msgList.add(msgContent);
+                    if(!currentAc.getList()){
+                        currentAc.setList(msgList);
+                    }
                     listAdapter.addMessage(msgContent);
                     parent.setAdapter(listAdapter);
                     msg.getText().clear();
@@ -226,11 +233,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }else{
                     Log.d("LatLng of activity", markerArray.get(1).getPosition().latitude +
                             ", " + markerArray.get(1).getPosition().longitude);
-                    activityArray.add(new RaidActivity(1,
-                            diffList.getSelectedItem().toString(),
+
+                    RaidActivity ac = new RaidActivity(1, diffList.getSelectedItem().toString(),
                             timer.getHour() + ":" + timer.getMinute(),
                             markerArray.get(1).getPosition().latitude,
-                            markerArray.get(1).getPosition().longitude));
+                            markerArray.get(1).getPosition().longitude);
+                    activityArray.add(ac);
 
                     mMap.clear();
                     mMap.addMarker(markerArray.get(0));
@@ -340,8 +348,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                // Remove the messages from the list view
+                listAdapter.removeMessage();
+
+                // Check which activity has been selected
                 for(RaidActivity r : activityArray){
                     if(marker.getPosition().longitude == r.lon && marker.getPosition().latitude == r.lat){
+                        // Set the current ac
+                        currentAc = r;
+                        if(currentAc.getList()){
+                            if(currentAc.msgList.size() > 0){
+                                for(Message m : currentAc.msgList){
+                                    listAdapter.addMessage(m);
+                                }
+                            }
+                        }
+
                         // Display the info of the activity
                         showTime.setText("Time: " + r.time);
                         showDiff.setText("Difficulty: " + r.difficulty);
