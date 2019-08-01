@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TimePicker timer;
     private EditText msg;
     private Message msgContent;
+    private View v;
+    private RelativeLayout parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         activityArray = new ArrayList<>();
         markerArray  = new ArrayList<>();
+
+        parent = findViewById(R.id.message_view);
 
         setUpComponents();
 
@@ -203,12 +208,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     msgContent = new Message(msg.getText().toString(), true);
                     LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
                     if(msgContent.isBelongToCurrentUser()){
-                        RelativeLayout parent = findViewById(R.id.message_view);
-                        View v = inflater.inflate(R.layout.my_message_view, parent);
+                        v = inflater.inflate(R.layout.my_message_view, parent);
                         TextView textView = v.findViewById(R.id.message_body);
                         textView.setText(msgContent.getMsgBody());
                     }
-                    msg.setText("");
+                    msg.getText().clear();
                 }
             }
         });
