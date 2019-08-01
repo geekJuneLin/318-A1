@@ -42,13 +42,13 @@
             />
 
         <Button
-            android:id="@+id/setTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="10dp"
-            android:text="Set Time" />
+        android:id="@+id/setTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="10dp"
+        android:text="Set Time" />
 
         <TextView
             android:id="@+id/diffLabel"
@@ -112,11 +112,13 @@
     // Raid information view
     <RelativeLayout
         android:id="@+id/raidInfoView"
+        android:layout_above="@id/map"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="-400dp"
-        android:background="#F6FAFA">
+        android:background="#F6FAFA"
+        tools:ignore="ObsoleteLayoutParam">
 
         <TextView
             android:id="@+id/raidTimeLabel"
@@ -190,17 +192,38 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="190dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="105dp"
             android:background="#E91E63">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#E91E63" />
+                android:background="#ffffff"/>
 
         </ScrollView>
 
+
+        <TextView
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:background="#FFFFFF"
+            android:text="Message here!"
+            android:textAlignment="center"
+            android:textColor="#7E7C7C"
+            android:textSize="24dp"
+            />
+
+            <Button
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:background="#ffffff"
+                android:text="Send"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                />
 
     </RelativeLayout>
 

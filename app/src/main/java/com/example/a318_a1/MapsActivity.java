@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.gesture.Gesture;
+import android.graphics.Rect;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -121,9 +123,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         markerArray.get(1).getPosition().latitude,
                                         markerArray.get(1).getPosition().longitude));
 
-                    for(MarkerOptions m : markerArray){
-                        mMap.addMarker(m);
-                    }
+                    mMap.clear();
+                    mMap.addMarker(markerArray.get(0));
                     MarkerOptions marker;
                     BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
                     if(activityArray.size() > 0){
@@ -189,6 +190,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ObjectAnimator animation = ObjectAnimator.ofFloat(hiddenView, "translationY", -1200f);
         animation.setDuration(500);
         animation.start();
+
+        // show the another marker of the current location
+//        BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(
+//                BitmapDescriptorFactory.HUE_AZURE);
+//        MarkerOptions marker = new MarkerOptions().position(new LatLng(lat, lon)).draggable(true).icon(bitmapDescriptor);
+//        mMap.addMarker(marker);
     }
 
     /**
@@ -299,6 +306,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        // marker click listener
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -319,6 +327,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
                 return false;
+            }
+        });
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+                Log.d("Marker", "Marker start dragging");
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+
             }
         });
     }

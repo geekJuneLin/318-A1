@@ -3,4 +3,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="server_client_id">334522377482-54deshm2rjl6lcvqodat7m9dd0nfrmgc.apps.googleusercontent.com</string>
     <string name="title_activity_raid_info">RaidInfoActivity</string>
+    <string name="title_activity_maps2">MapsActivity2</string>
 </resources>

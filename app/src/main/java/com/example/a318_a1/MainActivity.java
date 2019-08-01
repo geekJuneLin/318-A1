@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showMap(){
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
         finish();
     }
