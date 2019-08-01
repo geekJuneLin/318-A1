@@ -56,6 +56,11 @@ public class ListViewAdapter extends BaseAdapter {
             holder.messageBody = view.findViewById(R.id.message_body);
             view.setTag(holder);
             holder.messageBody.setText(msg.getMsgBody());
+        } else {
+            view = inflater.inflate(R.layout.their_message_view, null);
+            holder.messageBody = view.findViewById(R.id.message_body);
+            view.setTag(holder);
+            holder.messageBody.setText(msg.getMsgBody());
         }
         return view;
     }

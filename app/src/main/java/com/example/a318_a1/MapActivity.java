@@ -209,13 +209,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // Send message method here
                 if(msg.length() > 0){
                     Log.d("MSG", "Sending msg!");
-                    msgContent = new Message(msg.getText().toString(), true);
+                    msgContent = new Message(msg.getText().toString(), false);
+                    Message m = new Message(msg.getText().toString(), true);
                     msgList = new ArrayList<>();
                     msgList.add(msgContent);
+                    msgList.add(m);
                     if(!currentAc.getList()){
                         currentAc.setList(msgList);
+                    } else {
+                        currentAc.msgList.add(msgContent);
+                        currentAc.msgList.add(m);
                     }
                     listAdapter.addMessage(msgContent);
+                    listAdapter.addMessage(m);
                     parent.setAdapter(listAdapter);
                     msg.getText().clear();
                 }
@@ -356,7 +362,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     if(marker.getPosition().longitude == r.lon && marker.getPosition().latitude == r.lat){
                         // Set the current ac
                         currentAc = r;
+
                         if(currentAc.getList()){
+                            Toast.makeText(MapActivity.this, String.valueOf(currentAc.msgList.size()),Toast.LENGTH_LONG).show();
                             if(currentAc.msgList.size() > 0){
                                 for(Message m : currentAc.msgList){
                                     listAdapter.addMessage(m);
@@ -400,4 +408,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onProviderDisabled(String s) {
 
     }
+
 }
