@@ -43,6 +43,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
@@ -60,8 +61,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TimePicker timer;
     private EditText msg;
     private Message msgContent;
-    private View v;
-    private RelativeLayout parent;
+    private ListView parent;
+    ListViewAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         markerArray  = new ArrayList<>();
 
         parent = findViewById(R.id.message_view);
+        listAdapter = new ListViewAdapter(this);
 
         setUpComponents();
 
@@ -206,12 +208,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if(msg.length() > 0){
                     Log.d("MSG", "Sending msg!");
                     msgContent = new Message(msg.getText().toString(), true);
-                    LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-                    if(msgContent.isBelongToCurrentUser()){
-                        v = inflater.inflate(R.layout.my_message_view, parent);
-                        TextView textView = v.findViewById(R.id.message_body);
-                        textView.setText(msgContent.getMsgBody());
-                    }
+                    listAdapter.addMessage(msgContent);
+                    parent.setAdapter(listAdapter);
                     msg.getText().clear();
                 }
             }

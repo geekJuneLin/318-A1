@@ -171,20 +171,20 @@
                 android:text="Joined: "
                 android:textAllCaps="false" />
 
-            <ScrollView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="100dp"
                 android:background="@drawable/scroll_view"
-                android:isScrollContainer="true">
+                >
 
-                <RelativeLayout
+                <ListView
                     android:id="@+id/message_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-            </ScrollView>
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/msgContent"
